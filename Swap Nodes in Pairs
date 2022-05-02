@@ -1,0 +1,31 @@
+# Swap Nodes in Pairs
+
+*****************************PROBLEM STATEMENT*****************************
+
+Given a linked list, swap every two adjacent nodes and return its head.
+You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed.)
+
+#CONCEPT USED :- POINTERS
+
+******************************CODE*****************************
+
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if head==None or head.next==None:
+            return head
+        dummy=prev=ListNode(0)
+        prev.next=head
+        
+        while prev.next and prev.next.next:
+            a=prev.next
+            b=prev.next.next
+            c=prev.next.next.next
+            
+            prev.next=b
+            prev.next.next=a
+            prev.next.next.next=c
+            
+            prev=prev.next.next
+            
+        return dummy.next
+            
