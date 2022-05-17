@@ -1,0 +1,31 @@
+# Check if Every Row and Column Contains All Numbers
+
+**********************************Problem Statement******************************
+
+An n x n matrix is valid if every row and every column contains all the integers from 1 to n (inclusive).
+
+Given an n x n integer matrix matrix, return true if the matrix is valid. Otherwise, return false.
+
+# Concept Used :- Set Function 
+
+************************************CODE**************************************
+
+class Solution:
+    def checkValid(self, matrix: List[List[int]]) -> bool:
+        
+        a = []
+        for i in matrix:
+            if len(i) != len(set(i)):
+                return False
+            
+        for i in range(0,len(matrix)):
+            for j in range(0,len(matrix)):
+                a.append(matrix[j][i])
+                
+            if len(a)!=len(set(a)):
+                return False
+            
+            a=[]
+                
+        return True
+            
