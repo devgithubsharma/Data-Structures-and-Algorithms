@@ -1,0 +1,35 @@
+# First Missing Positive
+
+************************************Problem Statement************************************
+
+Given an unsorted integer array nums, return the smallest missing positive integer.
+
+You must implement an algorithm that runs in O(n) time and uses constant extra space.
+
+# Concept Used : - Cyclic Sort
+# Level : Hard
+
+***************************************CODE*********************************************
+
+def firstMissingPositive(self, nums: List[int]) -> int:
+        i=0
+        
+        while i<len(nums):
+            corr=nums[i]-1
+            
+            if  nums[i]>0 and nums[i]<=len(nums) and nums[i]!=nums[corr]:
+                nums[i],nums[corr]=nums[corr],nums[i]
+                
+            else:
+                i+=1
+                
+        
+        for i in range(len(nums)):
+            if nums[i]!=i+1:
+                return i+1
+            
+        return len(nums)+1
+                
+            
+            
+        
