@@ -1,0 +1,26 @@
+# 132 Patterns
+
+****************************Problem Statement******************************
+# Given an array of n integers nums, a 132 pattern is a subsequence of three integers nums[i], nums[j] and nums[k] such that i < j < k and nums[i] < nums[k] < nums[j].
+
+Return true if there is a 132 pattern in nums, otherwise, return false.
+
+ # Concept Used : Monotonic Stack
+ # Level : Medium
+
+************************************CODE*************************************
+
+def find132pattern(self, nums: List[int]) -> bool:
+        s=[]
+        third_element=float('-inf') #nums[k]
+        for i in reversed(range(len(nums))):
+            if third_element>nums[i]:
+                return True
+            
+            while s and s[-1]<nums[i]:
+                third_element=s[-1]
+                s.pop()
+                
+            s.append(nums[i])
+            
+        return False
