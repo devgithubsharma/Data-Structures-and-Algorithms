@@ -12,19 +12,19 @@ Return an array ans of length nums1.length such that ans[i] is the next greater 
  
  
  *********************CODE**********************
- class Solution:
-    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        
-        stack=[]
-        
-        d={}
-        
-        for e in nums2:
+ def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        res = {}
+        s=[]
+        for i in reversed(range(len(nums2))):
             
-            while (stack and e>stack[-1]):
-                c=stack.pop()
-                d[c]=e
-                
-            stack.append(e)
+            while s:
+                if s[-1]<=nums2[i]:
+                    s.pop()
+                else:
+                    res[nums2[i]] = s[-1]
+                    break
+            s.append(nums2[i])
             
-        return [d.get(e,-1) for e in nums1]
+        
+            
+        return [res.get(e,-1) for e in nums1]
