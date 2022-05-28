@@ -1,0 +1,32 @@
+# Sorting 
+
+*********************************PROBLEM STATEMENT*********************************
+--> Sorting a array Using recursion
+
+Concept Used:- Recursion
+
+**********************************CODE***********************************
+
+def insert(self,nums,temp):
+        if len(nums)==0 or nums[len(nums)-1]<=temp:
+            nums.append(temp)
+            return
+        
+        val=nums[len(nums)-1]
+        nums.pop()
+        self.insert(nums,temp)
+        
+        nums.append(val)
+        return 
+    def sortArray(self, nums: List[int]) -> List[int]:
+        if len(nums)==0:
+            return 
+        
+        
+        temp=nums[len(nums)-1]
+        nums.pop()
+        self.sortArray(nums)
+        
+        self.insert(nums,temp)
+        
+        return nums
