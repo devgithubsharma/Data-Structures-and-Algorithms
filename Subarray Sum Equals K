@@ -1,0 +1,32 @@
+#Subarray Sum Equals K
+
+************************************PROBLEM STATEMENT**************************************
+
+Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
+
+A subarray is a contiguous non-empty sequence of elements within an array.
+
+# Concept Used : - Hash Map
+
+******************************************CODE**********************************************
+
+def subarraySum(self, nums: List[int], k: int) -> int:
+        if len(nums)==1 and nums[0]==k:
+            return 1
+        
+        d={}
+        currSum=0
+        d[currSum]=1
+        ans=0
+        for i in range(len(nums)):
+            currSum+=nums[i]
+            
+            if (currSum-k) in d:
+                ans+=d[currSum-k]
+                
+            if currSum in d:
+                d[currSum]+=1
+            else:
+                d[currSum]=1
+                
+        return ans
