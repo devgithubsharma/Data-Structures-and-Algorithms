@@ -1,0 +1,60 @@
+# Largest Rectangle in Histogram
+************************************************Problem Statement********************************************
+Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, 
+return the area of the largest rectangle in the histogram.
+
+Concept Used : -Monotonic Stack
+
+******************************************************Code***********************************************
+def NSR(self,heights):
+        stack=[]
+        data1=[]
+        for i in reversed(range(len(heights))):
+            if len(stack)==0:
+                data1.append(len(heights))
+            elif stack and stack[-1][0]<heights[i]:
+                data1.append(stack[-1][1])
+                
+            elif stack and stack[-1][0]>=heights[i]:
+                while stack and stack[-1][0]>=heights[i]:
+                    stack.pop()
+                if stack:
+                    data1.append(stack[-1][1])
+                else:
+                    data1.append(len(heights))
+                    
+            stack.append((heights[i],i))
+        data1=list(reversed(data1))   
+        return data1
+    def  NSL(self,heights):
+        stack=[]
+        data2=[]
+        for i in range(len(heights)):
+            if len(stack)==0:
+                data2.append(-1)
+            elif stack and stack[-1][0]<heights[i]:
+                data2.append(stack[-1][1])
+                
+            elif stack and stack[-1][0]>=heights[i]:
+                while stack and stack[-1][0]>=heights[i]:
+                    stack.pop()
+                if stack:
+                    data2.append(stack[-1][1])
+                else:
+                    data2.append(-1)
+                    
+            stack.append((heights[i],i))
+            
+        return data2
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        right=self.NSR(heights)
+        left=self.NSL(heights)
+        ans=-float('inf')   
+        for j in range(len(heights)):
+            val=(right[j]-left[j]-1)*heights[j]
+            ans=max(val,ans)
+            
+        return ans
+            
+
+ 
