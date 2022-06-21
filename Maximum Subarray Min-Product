@@ -1,0 +1,72 @@
+# Maximum Subarray Min-Product
+*************************************************Problem Statement****************************************
+The min-product of an array is equal to the minimum value in the array multiplied by the array's sum.
+
+For example, the array [3,2,5] (minimum value is 2) has a min-product of 2 * (3+2+5) = 2 * 10 = 20.
+Given an array of integers nums, return the maximum min-product of any non-empty subarray of nums. Since the answer may be large, return it modulo 109 + 7.
+
+Note that the min-product should be maximized before performing the modulo operation. Testcases are generated such that the maximum min-product without modulo will fit in a 64-bit signed integer.
+
+A subarray is a contiguous part of an array.
+
+ 
+Concept Used : - Monotonic Stack
+
+****************************************************Code*************************************************
+def NSEL(self,nums):
+        stack=[]
+        res=[]
+        for i in range(len(nums)):
+            if len(stack)==0:
+                res.append(-1)
+                
+            elif stack and stack[-1][0]<nums[i]:
+                res.append(stack[-1][1])
+            elif stack and stack[-1][0]>=nums[i]:
+                while stack and stack[-1][0]>=nums[i]:
+                    stack.pop()
+                if stack:
+                    res.append(stack[-1][1])
+                else:
+                    res.append(-1)
+                    
+            stack.append((nums[i],i))
+            
+        return res
+    def NSER(self,nums):
+        stack=[]
+        res=[]
+        for i in reversed(range(len(nums))):
+            if len(stack)==0:
+                res.append(len(nums))
+            elif stack and stack[-1][0]<nums[i]:
+                res.append(stack[-1][1])
+            elif stack and stack[-1][0]>=nums[i]:
+                while stack and stack[-1][0]>=nums[i]:
+                    stack.pop()
+                if stack:
+                    res.append(stack[-1][1])
+                else:
+                    res.append(-1)
+                    
+            stack.append((nums[i],i))
+            
+        res=list(reversed(res))
+        return res
+    def maxSumMinProduct(self, nums: List[int]) -> int:
+        pf=[0]*(len(nums)+1)
+        for i in range(len(nums)):
+            pf[i+1]=pf[i]+nums[i]
+            
+        
+        smallerToleft=self.NSEL(nums)
+        smallerToright=self.NSER(nums)
+        ans=-float('inf')
+        for i in range(len(nums)):
+            lr=smallerToleft[i]
+            rr=smallerToright[i]
+            minProduct=(pf[rr]-pf[lr+1])*nums[i]
+            ans=max(ans,minProduct)
+        modulo=1000000007    
+        return ans%modulo
+        
