@@ -1,0 +1,69 @@
+# Maximal Rectangle
+
+***************************************************Problem Statement********************************************
+
+Given a rows x cols binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+
+ Concept Used: - Monotonic Stack
+ 
+ ***********************************************Code***********************************************
+ def MAH(self,arr):
+        stack=[]
+        data1=[]
+        for i in reversed(range(len(arr))):
+            if len(stack)==0:
+                data1.append(len(arr))
+            elif stack and stack[-1][0]<arr[i]:
+                data1.append(stack[-1][1])
+                
+            elif stack and stack[-1][0]>=arr[i]:
+                while stack and stack[-1][0]>=arr[i]:
+                    stack.pop()
+                if stack:
+                    data1.append(stack[-1][1])
+                else:
+                    data1.append(len(arr))
+                    
+            stack.append((arr[i],i))
+        data1=list(reversed(data1))   
+        
+        stack=[]
+        data2=[]
+        for i in range(len(arr)):
+            if len(stack)==0:
+                data2.append(-1)
+            elif stack and stack[-1][0]<arr[i]:
+                data2.append(stack[-1][1])
+                
+            elif stack and stack[-1][0]>=arr[i]:
+                while stack and stack[-1][0]>=arr[i]:
+                    stack.pop()
+                if stack:
+                    data2.append(stack[-1][1])
+                else:
+                    data2.append(-1)
+                    
+            stack.append((arr[i],i))
+            
+        ans=-float('inf')   
+        for j in range(len(arr)):
+            val=(data1[j]-data2[j]-1)*arr[j]
+            ans=max(val,ans)
+            
+        return ans
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        res=[]
+        mx=-float('inf')
+        for i in range(len(matrix[0])):
+            res.append(int(matrix[0][i]))
+         
+        mx=max(mx,self.MAH(res))
+        for i in range(1,len(matrix)):
+            for j in range(len(matrix[0])):
+                if int(matrix[i][j])==0:
+                    res[j]=0
+                else:
+                    res[j]=res[j]+int(matrix[i][j])
+            mx=max(mx,self.MAH(res))
+            
+        return mx
