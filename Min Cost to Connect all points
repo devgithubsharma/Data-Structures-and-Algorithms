@@ -1,0 +1,42 @@
+#Min Cost to Connect all points(Based on Prim's Algorithm)
+************************************************PROBLEM*************************************************
+You are given an array points representing integer coordinates of some points on a 2D-plane, where points[i] = [xi, yi].
+
+The cost of connecting two points [xi, yi] and [xj, yj] is the manhattan distance between them: |xi - xj| + |yi - yj|, where |val| denotes the absolute value of val.
+
+Return the minimum cost to make all points connected. All points are connected if there is exactly one simple path between any two points.
+
+###### This Problem is a variant of Prim's Algorithm.######
+
+*************************************************CODE***************************************************
+def minCostConnectPoints(points):
+    import sys
+    n=len(points)
+    dist=[sys.maxsize for _ in range(n)]
+    visited=[False for _ in range(n)]
+    dist[0]=[0]
+    visited[0]=True
+    curr=0
+    res=0
+    numEdge=0
+    while numEdge<n-1:
+        next_min=0
+        minEdge=sys.maxsize
+        for node in range(n):
+            if not visited[node]:
+                x1=points[curr][0]
+                x2=points[node][0]
+                y1=points[curr][1]
+                y2=points[node][1]
+                dis=abs(x1-x2)+abs(y1-y2)
+
+                dist[node]=min(dis,dist[node])
+                if dist[node]<minEdge:
+                    minEdge=dist[node]
+                    next_min=node
+
+        res+=minEdge
+        curr=next_min
+        visited[curr]=True
+        numEdge+=1
+    return res
