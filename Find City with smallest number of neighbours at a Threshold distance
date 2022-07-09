@@ -1,0 +1,37 @@
+# There are n cities numbered from 0 to n-1. Given the array edges where edges[i] = [fromi, toi, weighti] represents a bidirectional and weighted edge between cities fromi and toi, and given the integer distanceThreshold.
+
+Return the city with the smallest number of cities that are reachable through some path and whose distance is at most distanceThreshold, If there are multiple such cities, return the city with the greatest number.
+
+Notice that the distance of a path connecting cities i and j is equal to the sum of the edges' weights along that path.
+
+####### This Problem is Based on DIJSKTRA ALGORITHM #######
+
+**************************************************CODE******************************************************
+import heapq
+import sys
+def build_graph(n,edges):
+    adj=[[] for _ in range(n)]
+    for src,dest,weigh in edges:
+        adj[src].append((dest,weigh))
+        adj[dest].append((src,weigh))
+
+    return adj
+
+def dijsktra_Algo(src,adj,n):
+    dist=[sys.maxsize]*n
+    visited=[False]*n
+    dist[src]=0
+    min_heap=[(0,src)]
+    while min_heap:
+        neigh,node=heapq.heappop(min_heap)
+        visited[node]=True
+        for neigh,weigh in adj[node]:
+            if visited[neigh]==False:
+                new_dist=dist[node]+weigh
+                if new_dist<dist[neigh]:
+                    dist[neigh]=new_dist
+                    heapq.heappush(min_heap,(new_dist,neigh))
+
+    return dist
+
+
