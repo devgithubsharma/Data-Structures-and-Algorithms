@@ -1,0 +1,37 @@
+# Topological Sort(Kahn's Algorithm)
+
+Kahn's Algorithm : - Topological sorting is a linear ordering of vertices such that for every directed edge uv ,vertex u comes before v in ordering .
+In simple words, less dependent nodes comes first and largely dependent nodes comes later in the order.
+
+************************************************Code*************************************************
+# graph represent adjency list here
+def TopologicalSor(graph,v):
+    in_degree=[0]*v
+    for i in graph:
+        for j in graph[i]:
+            in_degree[j]+=1
+            
+    queue=[]
+    for i in range(v):
+        if in_degree[i]==0:
+            queue.append(i)
+            
+    cnt=0
+    top_order=[]
+    while queue:
+        u=queue.pop(0)
+        top_order.append(u)
+        
+        for i in graph[u]:
+            in_degree[i]-=1
+            if in_degree[i]==0:
+                queue.append(i)
+                
+                
+        cnt+=1
+        
+    if cnt!=v:
+        print('Their is a cycle present')
+    else:
+        print(top_order)
+            
